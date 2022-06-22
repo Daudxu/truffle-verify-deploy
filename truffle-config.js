@@ -1,25 +1,60 @@
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+// const Web3 = require("web3");
+const mnemonicPhrase = 'absorb cave cart day treat tattoo state napkin meat jealous hurt stadium'
 module.exports = {
+  compilers: {
+    solc: {
+        version: "^0.8.2", 
+      }
+    },
     plugins: [
       'truffle-plugin-verify'
-    ]
-  // Uncommenting the defaults below
-  // provides for an easier quick-start with Ganache.
-  // You can also follow this format for other networks.
-  // See details at: https://trufflesuite.com/docs/truffle/reference/configuration
-  // on how to specify configuration options!
-  //
-  //networks: {
-  //  development: {
-  //    host: "127.0.0.1",
-  //    port: 7545,
-  //    network_id: "*"
-  //  },
-  //  test: {
-  //    host: "127.0.0.1",
-  //    port: 7545,
-  //    network_id: "*"
-  //  }
-  //},
+    ],
+    api_keys: {
+      etherscan: "P99KBVIGPU8DYACRCKNDP5WMR9VKDB16I7"
+    },
+    networks: {
+    development: {
+      host: "127.0.0.1",
+      port: 8545,
+      network_id: "*"
+    },
+    test: {
+      host: "127.0.0.1",
+      port: 8545,
+      network_id: "*"
+    },
+    rinkeby: {
+      // must be a thunk, otherwise truffle commands may hang in CI
+      provider: () =>
+        new HDWalletProvider({
+          mnemonic: {
+            phrase: mnemonicPhrase
+          },
+          providerOrUrl: "https://rinkeby.infura.io/v3/fe4b3cd922484bd084c50da206d64cb6",
+          numberOfAddresses: 1,
+          shareNonce: true,
+          derivationPath: "m/44'/60'/0'/0/"
+          // derivationPath: "m/44'/1'/0'/0/"
+        }),
+      network_id: '4',
+    },
+    ropsten: {
+      // must be a thunk, otherwise truffle commands may hang in CI
+      provider: () =>
+        new HDWalletProvider({
+          mnemonic: {
+            phrase: mnemonicPhrase
+          },
+          providerOrUrl: "https://ropsten.infura.io/v3/fe4b3cd922484bd084c50da206d64cb6",
+          numberOfAddresses: 1,
+          shareNonce: true,
+          derivationPath: "m/44'/60'/0'/0/"
+          // derivationPath: "m/44'/1'/0'/0/"
+        }),
+      network_id: '3',
+    },
+},
   //
   // Truffle DB is currently disabled by default; to enable it, change enabled:
   // false to enabled: true. The default storage location can also be
